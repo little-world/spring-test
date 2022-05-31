@@ -16,37 +16,38 @@ import reactor.core.publisher.Mono;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TodoWebTestClientTests {
 
-    @Autowired
-    private WebTestClient webTestClient;
+  @Autowired
+  private WebTestClient webTestClient;
 
-    @Test
-    @Order(1)
-    public void testCreate() {
-        Todo todo = new Todo();
-        todo.setTask("watch the video");
+  @Test
+  @Order(1)
+  public void testCreate() {
+    Todo todo = new Todo();
+    todo.setTask("watch the video");
 
-        webTestClient.post().uri("/todo")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(Mono.just(todo), Todo.class)
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBody()
-                .jsonPath("$.task").isNotEmpty()
-                .jsonPath("$.task").isEqualTo(todo.getTask());
-    }
+    webTestClient.post().uri("/todo")
+       .contentType(MediaType.APPLICATION_JSON)
+       .accept(MediaType.APPLICATION_JSON)
+       .body(Mono.just(todo), Todo.class)
+       .exchange()
+       .expectStatus().isOk()
+       .expectHeader().contentType(MediaType.APPLICATION_JSON)
+       .expectBody()
+       .jsonPath("$.task").isNotEmpty()
+       .jsonPath("$.task").isEqualTo(todo.getTask());
+  }
 
-    @Test
-    @Order(2)
-    public void testFindAll() {
+  @Test
+  @Order(2)
+  public void testFindAll() {
 
-        webTestClient.get().uri("/todo")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBodyList(Todo.class);
+    webTestClient.get().uri("/todo")
+       .accept(MediaType.APPLICATION_JSON)
+       .exchange()
+       .expectStatus().isOk()
+       .expectHeader().contentType(MediaType.APPLICATION_JSON)
+       .expectBodyList(Todo.class)
 
-    }
+       .hasSize(1);
+  }
 }

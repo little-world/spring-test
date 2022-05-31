@@ -9,9 +9,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,10 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,7 +57,7 @@ public class TodoMockMvcTests {
                 .andExpect(status().isOk())
 
 
-                .andExpect( jsonPath("$.task",is(todo.getTask())));
+                .andExpect( jsonPath("$.task").value(todo.getTask()));
 
 
     }
@@ -76,7 +74,7 @@ public class TodoMockMvcTests {
         mvc.perform(get("/todo"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(0))).andExpect(jsonPath("$[0].task", is("task0")))
-                .andExpect(jsonPath("$[1].id", is(1))).andExpect(jsonPath("$[1].task", is("task1")));
+                .andExpect(jsonPath("$[0].id").value(0)).andExpect(jsonPath("$[0].task").value("task0"))
+                .andExpect(jsonPath("$[1].id").value(1)).andExpect(jsonPath("$[1].task").value("task1"));
     }
 }
