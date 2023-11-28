@@ -4,7 +4,8 @@ package com.example.todo;
 import com.example.todo.model.Todo;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
